@@ -1,5 +1,4 @@
 #!/usr/bin/env ruby
 
 require "In_theater"
-binding.pry
 In_theater::CLI.new.call
