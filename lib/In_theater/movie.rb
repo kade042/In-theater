@@ -1,4 +1,4 @@
-class In::theater::Movie
+class In_theater::Movie
   attr_accessor :name, :url, :summary
 
   def initialize(name = nil, url = nil)

@@ -1,5 +1,0 @@
-#!/usr/bin/env ruby
-
-require 'In/theater'
-
-In::theater::CLI.new.call
