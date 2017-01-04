@@ -1,4 +1,4 @@
 #!/usr/bin/env ruby
 
-require "In_theater"
+require_relative "../lib/In_theater"
 In_theater::CLI.new.call
