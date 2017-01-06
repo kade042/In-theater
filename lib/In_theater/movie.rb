@@ -8,7 +8,6 @@ class In_theater::Movie
 
   def self.all
     @@all ||= scrape_now_playing
-
   end
 
   def self.movies
@@ -23,8 +22,7 @@ class In_theater::Movie
 
     arr ||= array.collect.with_index(1) do |m, i|
       m, i = m, i if ( m.name.downcase.strip == name.downcase.strip ||
-      m.name.split("(").first.strip.downcase == name.downcase.strip
-        )
+      m.name.split("(").first.strip.downcase == name.downcase.strip)
     end
 
     arr.detect {|n| n if n != nil}
@@ -35,16 +33,16 @@ class In_theater::Movie
 
     doc ||= Nokogiri::HTML(open(obj.url.gsub("movieoverview", "plotsummary")))
 
-     if doc.search("p[class='subpage-descriptive-content']").text == ""
-        doc = Nokogiri::HTML(open(obj.url))
-        puts "-------------- #{obj.name} summary --------------"
-        puts doc.search("span[id='SynopsisTextLabel']").text
+    if doc.search("p[class='subpage-descriptive-content']").text == ""
+      doc = Nokogiri::HTML(open(obj.url))
+      puts "-------------- #{obj.name} summary --------------"
+      puts doc.search("span[id='SynopsisTextLabel']").text
 
-     else
-       puts "-------------- #{obj.name} summary --------------"
-       puts doc.search("p[class='subpage-descriptive-content']").text
+    else
+      puts "-------------- #{obj.name} summary --------------"
+      puts doc.search("p[class='subpage-descriptive-content']").text
 
-     end
+    end
 
   end
 
@@ -53,11 +51,12 @@ class In_theater::Movie
       puts "Enter zip code:"
       input = gets.strip
 
-       doc = Nokogiri::HTML(open("http://www.fandango.com/#{input.to_i}_movietimes/"))
+      doc = Nokogiri::HTML(open("http://www.fandango.com/#{input.to_i}_movietimes/"))
 
       names = doc.search("a[class='light showtimes-theater-title']")
 
-      names.to_a.collect { |name| new(name.children.text.strip, name.attributes.to_a[1][1].value ) }
+
+      names.to_a.collect { |name| new(name.children.text.strip, name.attributes.to_a[1][1].value) }
 
     end
 
@@ -65,7 +64,6 @@ class In_theater::Movie
 
 
     def self.custom_method(arg)
-
       doc ||= Nokogiri::HTML(open(arg))
       doc.search("a[class='dark showtimes-movie-title']").to_a.collect.with_index(1) do |name, i|
           new(name.children.text.strip, name.attributes.to_a[1][1].value )
