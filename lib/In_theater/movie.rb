@@ -51,12 +51,11 @@ class In_theater::Movie
       puts "Enter zip code:"
       input = gets.strip
 
-      doc = Nokogiri::HTML(open("http://www.fandango.com/#{input.to_i}_movietimes/"))
+      @doc = Nokogiri::HTML(open("http://www.fandango.com/#{input.to_i}_movietimes/"))
+      @theaters = @doc.xpath("//a[@class='light showtimes-theater-title']")
+      #binding.pry
 
-      names = doc.search("a[class='light showtimes-theater-title']")
-
-
-      names.to_a.collect { |name| new(name.children.text.strip, name.attributes.to_a[1][1].value) }
+      @theaters.collect { |theater| new(theater.children.text.strip, theater.attributes.to_a[1][1].value) }
 
     end
 
@@ -64,10 +63,17 @@ class In_theater::Movie
 
 
     def self.custom_method(arg)
-      doc ||= Nokogiri::HTML(open(arg))
-      doc.search("a[class='dark showtimes-movie-title']").to_a.collect.with_index(1) do |name, i|
-          new(name.children.text.strip, name.attributes.to_a[1][1].value )
-      end
+      @doc = Nokogiri::HTML(open(arg))
+
+
+      @movies = @doc.xpath("//a[@class='dark showtimes-movie-title']")
+      #binding.pry
+
+      #doc.search("a[class='dark showtimes-movie-title']").to_a.
+      @movies.collect.with_index(1) { |name|
+        new(name.children.text.strip, name.attributes.to_a[1][1].value )
+      }
+      #end
 
     end
 
